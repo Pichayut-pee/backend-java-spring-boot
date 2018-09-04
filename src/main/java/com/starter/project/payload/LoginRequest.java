@@ -1,7 +1,5 @@
 package com.starter.project.payload;
 
-import sun.misc.BASE64Decoder;
-
 import javax.validation.constraints.NotBlank;
 
 /**
