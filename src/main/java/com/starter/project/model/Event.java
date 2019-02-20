@@ -8,5 +8,5 @@ public class Event extends DateAudit {
 
     private String eventID;
     private String eventName;
-    private String eventDescription
+    private String eventDescription;
 }
