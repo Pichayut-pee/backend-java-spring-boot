@@ -1,5 +1,6 @@
 package com.starter.project.security;
 
+import com.starter.project.exception.BadRequestException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,15 +18,13 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
- * Created by rajeevkumarsingh on 19/08/17.
+ * Class to filter every request to identify userID
+ * @Author Pichayut.pee
  */
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     @Autowired
     private JwtTokenProvider tokenProvider;
-
-    @Autowired
-    private CustomUserDetailsService customUserDetailsService;
 
     private static final Logger logger = LoggerFactory.getLogger(JwtAuthenticationFilter.class);
 
@@ -35,21 +34,14 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             String jwt = getJwtFromRequest(request);
 
             if (StringUtils.hasText(jwt) && tokenProvider.validateToken(jwt)) {
-                Long userId = tokenProvider.getUserIdFromJWT(jwt);
-
-                /*
-                    Note that you could also encode the user's username and roles inside JWT claims
-                    and create the UserDetails object by parsing those claims from the JWT.
-                    That would avoid the following database hit. It's completely up to you.
-                 */
-                UserDetails userDetails = customUserDetailsService.loadUserById(userId);
-                UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
-                authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-
-                SecurityContextHolder.getContext().setAuthentication(authentication);
+                Long userID = tokenProvider.getUserIdFromJWT(jwt);
+            }else {
+                logger.error("Unauthorized jwt request.");
+                throw new BadRequestException("Unauthorized");
             }
         } catch (Exception ex) {
             logger.error("Could not set user authentication in security context", ex);
+            throw new BadRequestException("Unauthorized");
         }
 
         filterChain.doFilter(request, response);

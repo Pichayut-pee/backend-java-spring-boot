@@ -8,7 +8,10 @@ import org.springframework.stereotype.Component;
 
 import java.util.logging.Logger;
 
-
+/**
+ * Aspect to write log before and after execute a certain class
+ * @author  Pichayut P.
+ */
 @Aspect
 @Component
 public class LogAspect {

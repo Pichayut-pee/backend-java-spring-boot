@@ -15,7 +15,8 @@ import java.security.SignatureException;
 import java.util.Date;
 
 /**
- * Created by rajeevkumarsingh on 19/08/17.
+ * Class to handle JWT
+ * @Author Pichayut.pee
  */
 @Component
 public class JwtTokenProvider {
@@ -28,21 +29,7 @@ public class JwtTokenProvider {
     @Value("${app.jwtExpirationInMs}")
     private int jwtExpirationInMs;
 
-    public String generateToken(Authentication authentication) {
 
-        UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
-
-        Date now = new Date();
-        Date expiryDate = new Date(now.getTime() + jwtExpirationInMs);
-
-        return Jwts.builder()
-                .setSubject(Long.toString(userPrincipal.getId()))
-                .setIssuedAt(new Date())
-                .setExpiration(expiryDate)
-                .signWith(SignatureAlgorithm.HS512, jwtSecret)
-                .claim("name", ((UserPrincipal) authentication.getPrincipal()).getName())
-                .compact();
-    }
 
     public Long getUserIdFromJWT(String token) {
         Claims claims = Jwts.parser()
@@ -50,7 +37,7 @@ public class JwtTokenProvider {
                 .parseClaimsJws(token)
                 .getBody();
 
-        return Long.parseLong(claims.getSubject());
+        return Long.parseLong((String)claims.get("UID"));
     }
 
     public boolean validateToken(String authToken) throws SignatureException {

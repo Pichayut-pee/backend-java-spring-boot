@@ -46,7 +46,7 @@ pipeline {
     stage('Buid Docker Img') {
         steps {
             script {
-             sh "docker build -t ascendcorp/ptvn-cpf-op-contract-api:1.0.0.${BUILD_NUMBER} ."
+             sh "docker build -t pichayutpee/backend_standard:1.0.0.${BUILD_NUMBER} ."
              }
            }
        }
@@ -62,7 +62,7 @@ pipeline {
 
     stage('Push Image to Dockerhub') {
          steps {
-            sh "docker push ascendcorp/ptvn-cpf-op-contract-api:1.0.0.${BUILD_NUMBER}"
+            sh "docker push pichayutpee/backend_standard:1.0.0.${BUILD_NUMBER}"
           }
         }
       }

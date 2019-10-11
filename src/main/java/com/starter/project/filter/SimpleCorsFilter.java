@@ -16,7 +16,7 @@ import java.io.IOException;
  * The SimpleCORSFilter class is a standard web Filter which intercepts all inbound HTTP requests. The filter sets
  * several Headers on the HTTP response which inform a browser that the web services handle Cross-Origin requests.
  *
- * @author Matt Warman
+ * @author Pichayut.pee
  */
 @Component
 public class SimpleCorsFilter extends GenericFilterBean {

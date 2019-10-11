@@ -10,13 +10,13 @@ EXPOSE 8080
 
 # The application's jar file
 
-ARG JAR_FILE=build/libs/ptvn-op-contract-api-latest.jar
+ARG JAR_FILE=build/libs/api_backend-latest.jar
 
 
 #WORKDIR /root/.jenkins/workspace/ptvn-contract-api_master
 #COPY ./ ./
 # Add the application's jar to the container
-ADD ${JAR_FILE} ptvn-op-contract-api.jar
+ADD ${JAR_FILE} backend_standard
 
 # Run the jar file
-ENTRYPOINT ["java","-jar","/ptvn-op-contract-api.jar"]
+ENTRYPOINT ["java","-jar","/backend_standard.jar"]
